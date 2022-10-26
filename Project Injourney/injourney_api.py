@@ -12,7 +12,7 @@ app.config['MYSQL_DB'] = 'test_db'
 mysql = MySQL(app)
 
 #API FLASK
-@app.route('/test', methods = ['POST', 'GET'])
+@app.route('/production', methods = ['POST', 'GET'])
 def index():
     
     if request.method == 'GET':
@@ -49,15 +49,12 @@ def index():
         cursor.close()
         return jsonify( message= "Success", statusCode= 200)
 
-@app.route('/test/<id>', methods = ['POST', 'GET','PUT','DELETE'])
+@app.route('/production/<id>', methods = ['POST', 'GET','PUT','DELETE'])
 def get_byId(id):
     if request.method == 'GET':
         cursor = mysql.connection.cursor()
         cursor.execute(''' SELECT * FROM production WHERE id_cluster=%s ''',(id,))
         data = cursor.fetchone()
-        # dict_data = {'id_cluster':data[0],'cluster':data[1]}
-        # data1 = { 'id' : data[0], 'name' :data[1], 'alamat' : data[2]}
-        # return jsonify(isError= False, message= "Success", statusCode= 200, data= data), 200
         return jsonify(data = data,isError= False, message= "Success", statusCode= 200 ), 200
     if request.method == 'DELETE':
         cursor = mysql.connection.cursor()
