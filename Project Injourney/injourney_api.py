@@ -20,6 +20,7 @@ def index():
      
     if request.method == 'POST':
         print(request.json)
+        id_production = request.json['id_production']
         id_cluster = request.json['id_cluster']
         cluster = request.json['cluster']
         id_sub_cluster = request.json['id_sub_cluster']
@@ -39,7 +40,7 @@ def index():
         pq = request.json['pq']
         pm = request.json['pm']
         cursor = conn.cursor()
-        cursor.execute(''' INSERT INTO production VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)''',(id_cluster,cluster,id_sub_cluster,sub_cluster,channel,b_realitation,b_domestik,periode,id_member,member_name,dectotal,id_sub_class_component,sub_class_component,measurement_type,remark,py,pq,pm))
+        cursor.execute(''' INSERT INTO production VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)''',(id_production,id_cluster,cluster,id_sub_cluster,sub_cluster,channel,b_realitation,b_domestik,periode,id_member,member_name,dectotal,id_sub_class_component,sub_class_component,measurement_type,remark,py,pq,pm))
         conn.commit()
         cursor.close()
         return jsonify( message= "Success", statusCode= 200)
