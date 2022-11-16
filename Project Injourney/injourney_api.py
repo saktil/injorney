@@ -19,31 +19,27 @@ def index():
                     print(row)
     
     if request.method == 'POST':
-        print(request.form)
-        id_cluster = request.form['id_cluster']
-        cluster = request.form['cluster']
-        id_sub_cluster = request.form['id_sub_cluster']
-        sub_cluster = request.form['sub_cluster']
-        channel = request.form['channel']
-        b_realitation = request.form['b_realitation']
-        b_domestik = request.form['b_domestik']
-        periode = request.form['periode']
-        id_member = request.form['id_member']
-        member_name = request.form['member_name']
-        dectotal = request.form['dectotal']
-        id_sub_class_component = request.form['id_sub_class_component']
-        sub_class_component = request.form['sub_class_component']
-        measurement_type = request.form['measurement_type']
-        remark = request.form['remark']
-        py = request.form['py']
-        pq = request.form['pq']
-        pm = request.form['pm']
-        data = [(id_cluster,cluster,id_sub_cluster,sub_cluster,channel,b_realitation,b_domestik,periode,id_member,member_name,dectotal,id_sub_class_component,sub_class_component,measurement_type,remark,py,pq,pm)]
-        stmt = 'INSERT INTO production VALUES(:1,:2,:3,:4,:5,:6,:7,:8,:9,:10,:11,:12,:13,:14,:15,:16,:17,:18)'
+        print(request.json)
+        id_cluster = request.json['id_cluster']
+        cluster = request.json['cluster']
+        id_sub_cluster = request.json['id_sub_cluster']
+        sub_cluster = request.json['sub_cluster']
+        channel = request.json['channel']
+        b_realitation = request.json['b_realitation']
+        b_domestik = request.json['b_domestik']    
+        periode = request.json['periode']
+        id_member = request.json['id_member']
+        member_name = request.json['member_name']
+        dectotal = request.json['dectotal']
+        id_sub_class_component = request.json['id_sub_class_component']
+        sub_class_component = request.json['sub_class_component']
+        measurement_type = request.json['measurement_type']
+        remark = request.json['remark']
+        data = [(id_cluster,cluster,id_sub_cluster,sub_cluster,channel,b_realitation,b_domestik,periode,id_member,member_name,dectotal,id_sub_class_component,sub_class_component,measurement_type,remark)]
+        stmt = 'INSERT INTO production VALUES(:1,:2,:3,:4,:5,:6,:7,:8,:9,:10,:11,:12,:13,:14,:15)'
         with conn:
             conn.autocommit(True)
             with conn.cursor() as cur:
-                cur.execute('CREATE TABLE IF NOT EXISTS production ( id_production int,id_cluster int,cluster varchar(255),id_sub_cluster int,sub_cluster varchar(255),channel varchar(255),b_realitation varchar(255),b_domestik varchar(255),periode varchar(255),id_member varchar(255),member_name varchar(255),dectotal varchar(255),id_sub_class_component varchar(255),sub_class_component varchar(255),measurement_type varchar(255),remark varchar(255),py varchar(255),pq varchar(255),pm varchar(255))')
                 cur.executemany(stmt, data)
         return jsonify( message= "Success", statusCode= 200)
 
